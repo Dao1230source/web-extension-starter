@@ -1,10 +1,10 @@
 package org.source.web.unified;
 
 import org.jetbrains.annotations.NotNull;
+import org.source.spring.io.Response;
+import org.source.spring.io.ResponseIgnore;
 import org.source.utility.exceptions.BaseException;
 import org.source.utility.utils.Jsons;
-import org.source.spring.io.IgnoreAdviceResponse;
-import org.source.spring.io.Response;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -29,7 +29,7 @@ import java.util.Map;
 @ConditionalOnProperty(prefix = "org.source.web.enabled", value = "unified", matchIfMissing = true)
 @RestControllerAdvice
 public class UnifiedResponseAdvice implements ResponseBodyAdvice<Object> {
-    private static final Class<? extends Annotation> IGNORE_TYPE = IgnoreAdviceResponse.class;
+    private static final Class<? extends Annotation> IGNORE_TYPE = ResponseIgnore.class;
 
     @Override
     public boolean supports(MethodParameter methodParameter, @NotNull Class clazz) {
