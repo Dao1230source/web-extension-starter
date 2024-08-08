@@ -1,9 +1,12 @@
 package org.source.web.unified;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.source.spring.exception.BizException;
 import org.source.spring.exception.BizExceptionEnum;
 import org.source.spring.io.Response;
+import org.source.utility.constant.Constants;
 import org.source.utility.exceptions.BaseException;
 import org.source.utility.utils.Strings;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -49,10 +52,17 @@ public class UnifiedExceptionHandler {
                 code = fieldError.getField();
             }
             return Strings.format("{}:{}", code, k.getDefaultMessage());
-        }).collect(Collectors.joining(","));
+        }).collect(Collectors.joining(Constants.COMMA));
         return Response.fail(BizExceptionEnum.PARAM_EXCEPTION, res);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Response<Void> exception(ConstraintViolationException exception) {
+        String message = exception.getConstraintViolations().stream()
+                .map(ConstraintViolation::getMessage).collect(Collectors.joining(Constants.COMMA));
+        return Response.fail(BizExceptionEnum.PARAM_EXCEPTION, message);
+    }
 
     @ExceptionHandler(Exception.class)
     public Response<Void> exception(Exception exception) {
