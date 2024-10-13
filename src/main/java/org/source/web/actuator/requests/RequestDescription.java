@@ -1,4 +1,4 @@
-package org.source.web.actuator;
+package org.source.web.actuator.requests;
 
 import lombok.Data;
 import org.springframework.web.bind.annotation.RequestMethod;

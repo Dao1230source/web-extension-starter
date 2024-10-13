@@ -1,4 +1,4 @@
-package org.source.web.actuator;
+package org.source.web.actuator.requests;
 
 import jakarta.servlet.Servlet;
 import org.jetbrains.annotations.Nullable;

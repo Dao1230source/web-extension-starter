@@ -1,4 +1,4 @@
-package org.source.web.actuator;
+package org.source.web.actuator.requests;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;

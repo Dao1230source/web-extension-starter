@@ -1,5 +1,6 @@
 package org.source.web.actuator;
 
+import org.source.web.actuator.requests.RequestsEndpoint;
 import org.springframework.boot.actuate.web.mappings.MappingDescriptionProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
