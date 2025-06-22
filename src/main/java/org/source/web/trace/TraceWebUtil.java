@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.Nullable;
 import org.source.spring.trace.TraceContext;
+import org.source.spring.uid.Ids;
 import org.source.utility.enums.BaseExceptionEnum;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -18,10 +19,10 @@ public class TraceWebUtil {
     public static void computeRequest(@Nullable HttpServletRequest request) {
         TraceContext.putIfAbsent(TraceContext.TRACE_ID,
                 () -> Objects.isNull(request) ? null : request.getHeader(TraceContext.TRACE_ID),
-                TraceContext::getDefaultTraceId);
+                Ids::stringId);
         TraceContext.putIfAbsent(TraceContext.USER_ID,
                 () -> Objects.isNull(request) ? null : request.getHeader(TraceContext.USER_ID),
-                TraceContext::getDefaultUserId);
+                () -> TraceContext.DEFAULT_SPACE_ID);
         if (Objects.isNull(request)) {
             return;
         }

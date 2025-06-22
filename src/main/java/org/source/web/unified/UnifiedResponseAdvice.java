@@ -60,16 +60,16 @@ public class UnifiedResponseAdvice implements ResponseBodyAdvice<Object> {
                                   @NotNull ServerHttpResponse serverHttpResponse) {
         if (body instanceof String) {
             return Jsons.str(Response.success(body));
-        }
-        if (serverHttpResponse instanceof ServletServerHttpResponse httpResponse) {
+        } else if (body instanceof Response<?> response) {
+            return handleFailed(response);
+        } else if (serverHttpResponse instanceof ServletServerHttpResponse httpResponse) {
             int status = httpResponse.getServletResponse().getStatus();
-            if (status != 200 && body instanceof Map<?, ?> map) {
-                Response<?> response = Response.fail(new BaseException(String.valueOf(status), (String) map.get("error"), null, null));
+            if (status != 200) {
+                String code = String.valueOf(status);
+                String msg = body instanceof Map<?, ?> map ? String.valueOf(map.get("error")) : Jsons.str(body);
+                Response<?> response = Response.fail(new BaseException(code, msg, null, null));
                 return handleFailed(response);
             }
-        }
-        if (body instanceof Response<?> response) {
-            return handleFailed(response);
         }
         return Response.success(body);
     }
