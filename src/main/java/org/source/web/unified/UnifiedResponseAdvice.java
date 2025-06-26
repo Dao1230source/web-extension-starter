@@ -3,6 +3,7 @@ package org.source.web.unified;
 import org.jetbrains.annotations.NotNull;
 import org.source.spring.io.Response;
 import org.source.spring.io.ResponseIgnore;
+import org.source.spring.trace.TraceContext;
 import org.source.utility.exceptions.BaseException;
 import org.source.utility.utils.Jsons;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -76,7 +77,7 @@ public class UnifiedResponseAdvice implements ResponseBodyAdvice<Object> {
 
     private Response<?> handleFailed(Response<?> response) {
         if (!response.isSuccess()) {
-            response.setTraceId(response.getTraceId());
+            response.setTraceId(TraceContext.getTraceId());
         }
         return response;
     }
